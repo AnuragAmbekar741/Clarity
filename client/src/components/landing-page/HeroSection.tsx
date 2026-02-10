@@ -85,13 +85,10 @@ export function HeroSection() {
             >
               <Button
                 asChild
-                className="bg-black text-white hover:bg-black/85 rounded-full px-7 h-11 font-[Outfit] font-medium text-[15px] tracking-tight"
+                className="bg-black text-white hover:bg-black/85 rounded-md px-7 h-11 font-[Outfit] font-medium text-[15px] tracking-tight"
               >
                 <Link to="/auth">Get Early Access</Link>
               </Button>
-              <span className="font-[Outfit] text-[13px] text-black/25">
-                Free while in beta
-              </span>
             </motion.div>
           </div>
 
