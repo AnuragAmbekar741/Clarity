@@ -483,7 +483,7 @@ export function EmailDashboard() {
         </div>
 
         {/* Main content: sidebar + email list */}
-        <div className="flex h-[27.5rem]">
+        <div className="flex h-110">
           {/* Sidebar */}
           <div className="w-14 border-r border-black/6 bg-black/1.5 flex flex-col items-center py-3 gap-3.5 shrink-0">
             {categories.map((cat) => (

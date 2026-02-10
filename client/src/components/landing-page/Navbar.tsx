@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
@@ -10,8 +11,11 @@ export function Navbar() {
           </span>
         </div>
 
-        <Button className="bg-black text-white hover:bg-black/85 rounded-md px-5 h-9 font-[Outfit] font-medium text-sm tracking-tight">
-          Get Access
+        <Button
+          asChild
+          className="bg-black text-white hover:bg-black/85 rounded-md px-5 h-9 font-[Outfit] font-medium text-sm tracking-tight"
+        >
+          <Link to="/auth">Get Access</Link>
         </Button>
       </div>
     </nav>

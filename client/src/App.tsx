@@ -1,13 +1,9 @@
-import { ThemeProvider } from "./components/theme/theme-providers";
-import { LandingPage } from "./components/landing-page/LandingPage";
+import { RouterProvider } from "@tanstack/react-router";
+import { router } from "./routes/router";
 import "./global.css";
 
 function App() {
-  return (
-    <ThemeProvider defaultTheme="light">
-      <LandingPage />
-    </ThemeProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

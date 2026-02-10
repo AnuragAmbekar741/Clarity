@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
 import { EmailDashboard } from "./EmailDashboard";
@@ -82,8 +83,11 @@ export function HeroSection() {
               }}
               className="flex items-center gap-4"
             >
-              <Button className="bg-black text-white hover:bg-black/85 rounded-full px-7 h-11 font-[Outfit] font-medium text-[15px] tracking-tight">
-                Get Early Access
+              <Button
+                asChild
+                className="bg-black text-white hover:bg-black/85 rounded-full px-7 h-11 font-[Outfit] font-medium text-[15px] tracking-tight"
+              >
+                <Link to="/auth">Get Early Access</Link>
               </Button>
               <span className="font-[Outfit] text-[13px] text-black/25">
                 Free while in beta
