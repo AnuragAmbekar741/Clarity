@@ -1,5 +1,4 @@
-import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { motion } from "motion/react";
 import { EmailDashboard } from "./EmailDashboard";
 
@@ -83,12 +82,9 @@ export function HeroSection() {
               }}
               className="flex items-center gap-4"
             >
-              <Button
-                asChild
-                className="bg-black text-white hover:bg-black/85 rounded-md px-7 h-11 font-[Outfit] font-medium text-[15px] tracking-tight"
-              >
-                <Link to="/auth">Get Early Access</Link>
-              </Button>
+              <ShimmerButton to="/auth">
+                Get Early Access
+              </ShimmerButton>
             </motion.div>
           </div>
 
