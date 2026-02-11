@@ -24,3 +24,9 @@ export class UnauthorizedError extends AppError {
     super(message, 401);
   }
 }
+
+export class DatabaseError extends AppError {
+  constructor(message: string = "Database operation failed") {
+    super(message, 500);
+  }
+}
