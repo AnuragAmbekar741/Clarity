@@ -1,4 +1,11 @@
-import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { Link } from "@tanstack/react-router";
+import { NoiseBackground } from "@/components/ui/noise-background";
+
+const gradientColors = [
+  "rgb(80, 80, 80)",
+  "rgb(140, 140, 140)",
+  "rgb(50, 50, 50)",
+];
 
 export function Navbar() {
   return (
@@ -10,9 +17,19 @@ export function Navbar() {
           </span>
         </div>
 
-        <ShimmerButton to="/auth" size="sm">
-          Get Access
-        </ShimmerButton>
+        <NoiseBackground
+          containerClassName="w-fit p-1 rounded-full"
+          gradientColors={gradientColors}
+          noiseIntensity={0.15}
+          speed={0.06}
+        >
+          <Link
+            to="/auth"
+            className="inline-flex items-center h-full w-full cursor-pointer rounded-full bg-black px-5 py-1.5 font-[Outfit] text-sm font-medium tracking-tight text-white shadow-[0px_1px_0px_0px_rgba(255,255,255,0.06)_inset,0px_1px_2px_0px_rgba(0,0,0,0.4)] transition-all duration-100 active:scale-[0.98]"
+          >
+            Get Access
+          </Link>
+        </NoiseBackground>
       </div>
     </nav>
   );

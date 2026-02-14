@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { NoiseBackground } from "@/components/ui/noise-background";
 
 type Email = {
   id: number;
@@ -427,16 +428,18 @@ export function EmailDashboard() {
   }, []);
 
   return (
-    <div className="relative w-full max-w-175">
-      {/* Outer glow */}
-      <motion.div
-        animate={{ opacity: [0.4, 0.7, 0.4] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -inset-4 bg-black/3 rounded-3xl blur-2xl"
-      />
-
+    <NoiseBackground
+      containerClassName="w-full max-w-175 rounded-2xl p-1.5"
+      gradientColors={[
+        "rgb(80, 80, 80)",
+        "rgb(140, 140, 140)",
+        "rgb(50, 50, 50)",
+      ]}
+      noiseIntensity={0.15}
+      speed={0.05}
+    >
       {/* Dashboard container */}
-      <div className="relative bg-white rounded-2xl border border-black/8 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.06)] overflow-hidden">
+      <div className="relative bg-white rounded-xl border border-black/8 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.06)] overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center justify-between px-3 py-2.5 border-b border-black/6">
           <div className="flex items-center gap-2">
@@ -546,6 +549,6 @@ export function EmailDashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </NoiseBackground>
   );
 }
