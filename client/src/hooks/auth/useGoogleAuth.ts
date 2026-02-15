@@ -18,10 +18,9 @@ export function useGoogleAuth() {
       return authService.googleLogin(idToken);
     },
     onSuccess: (data) => {
-      const { accessToken, user } = data;
+      const { user } = data;
 
-      // Store JWT token and user in localStorage
-      localStorage.setItem("authToken", accessToken);
+      // Store user in localStorage
       localStorage.setItem("user", JSON.stringify(user));
 
       // Redirect to home after successful auth

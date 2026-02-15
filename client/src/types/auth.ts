@@ -1,16 +1,17 @@
 export interface AuthResponse {
-  accessToken: string;
   user: {
-    id: string;
+    googleId: string;
     email: string;
     name: string;
+    avatar?: string;
   };
 }
 
 export interface User {
-  id: string;
+  googleId: string;
   email: string;
   name: string;
+  avatar?: string;
 }
 
 export interface GoogleAuthState {

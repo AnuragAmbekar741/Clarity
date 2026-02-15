@@ -1,27 +1,42 @@
 import { OAuth2Client } from "google-auth-library";
 import { env } from "../../config/env.js";
+import {
+  GoogleTokenPayload,
+  GoogleUserData,
+  AuthResponse,
+} from "../../types/google.js";
 
-async function exchangeCodeForTokens(code: string) {
-  const GoogleClient = new OAuth2Client({
-    clientId: env.GOOGLE_CLIENT_ID,
-    client_secret: env.GOOGLE_CLIENT_SECRET,
-  });
-  const { tokens } = await GoogleClient.getToken({
-    code: code,
-  });
+export class AuthService {
+  private GOOGLE_CLIENT: OAuth2Client;
 
-  if (!tokens.id_token) throw new Error("No id token");
+  constructor() {
+    this.GOOGLE_CLIENT = new OAuth2Client({
+      client_id: env.GOOGLE_CLIENT_ID,
+      client_secret: env.GOOGLE_CLIENT_SECRET,
+    });
+  }
 
-  const ticket = await GoogleClient.verifyIdToken({
-    idToken: tokens.id_token,
-    audience: env.GOOGLE_CLIENT_ID,
-  });
+  private async verifyAndExtractUser(idToken: string): Promise<GoogleUserData> {
+    const ticket = await this.GOOGLE_CLIENT.verifyIdToken({
+      idToken: idToken,
+      audience: env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload() as GoogleTokenPayload;
 
-  const payload = ticket.getPayload();
-  const googleId = payload?.sub;
-  const name = payload?.name;
-  const email = payload?.email;
-  const picture = payload?.picture;
+    const { sub: googleId, email, name, picture } = payload;
 
-  return { tokens, googleId, name, email, picture };
+    return {
+      googleId,
+      email,
+      name,
+      avatar: picture,
+    };
+  }
+
+  async googleCallback(idToken: string): Promise<AuthResponse> {
+    const user = await this.verifyAndExtractUser(idToken);
+    return {
+      user,
+    };
+  }
 }
