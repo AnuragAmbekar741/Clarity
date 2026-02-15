@@ -3,12 +3,12 @@ import { HeroSection } from "./HeroSection";
 
 export function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-white overflow-hidden">
+    <div className="relative min-h-screen bg-white">
       {/* ── Background layers ── */}
 
       {/* 1. Dot grid pattern */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage:
             "radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px)",
@@ -40,7 +40,7 @@ export function LandingPage() {
       />
 
       {/* 3. Film grain overlay (SVG noise filter) */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.35]">
+      <svg className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.35]">
         <filter id="grain">
           <feTurbulence
             type="fractalNoise"
@@ -55,7 +55,7 @@ export function LandingPage() {
 
       {/* 4. Subtle vignette — darker edges */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none"
         style={{
           background:
             "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.03) 100%)",
