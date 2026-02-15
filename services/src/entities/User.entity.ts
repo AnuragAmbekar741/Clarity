@@ -19,11 +19,12 @@ export class User {
   @Index()
   email!: string;
 
-  @Column({ type: "int" })
-  age!: number;
+  @Column({ type: "varchar", unique: true })
+  @Index()
+  googleId!: string;
 
-  @Column({ type: "boolean", default: true })
-  isActive!: boolean;
+  @Column({ type: "varchar", nullable: true })
+  avatar?: string;
 
   @CreateDateColumn({ type: "timestamp" })
   createdAt!: Date;
