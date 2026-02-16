@@ -9,9 +9,10 @@ export class AuthController {
     const { idToken } = req.body;
     if (!idToken) throw new ValidationError("idToken required");
     const result = await this.authService.googleCallback(idToken);
+    const { name, email, avatar } = result.user;
     return res.status(200).json({
       status: "success",
-      data: result,
+      data: { user: { name, email, avatar } },
     });
   }
 }

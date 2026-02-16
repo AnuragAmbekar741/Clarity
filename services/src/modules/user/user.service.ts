@@ -1,6 +1,7 @@
 import { User } from "../../entities/User.entity.js";
 import { GoogleUserData } from "../../types/google.js";
 import { AppDataSource } from "../../config/database.js";
+import e from "cors";
 
 class UserService {
   private userRepo = AppDataSource.getRepository(User);
