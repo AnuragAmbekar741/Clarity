@@ -76,18 +76,35 @@ function StepCard({
         />
 
         <motion.div
-          whileHover={{ scale: 1.08, rotate: -5 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          className="relative size-20 rounded-2xl border border-black/8 dark:border-white/8 bg-white dark:bg-white/3 flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)] cursor-pointer"
+          className="relative size-20 rounded-2xl border border-black/8 dark:border-white/8 bg-white dark:bg-white/3 flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)] cursor-pointer overflow-hidden"
         >
+          {/* Icon glow — radiates outward on hover */}
+          <motion.div
+            animate={
+              isHovered
+                ? { opacity: 1, scale: 1 }
+                : { opacity: 0, scale: 0.5 }
+            }
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.06)_0%,transparent_70%)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_0%,transparent_70%)]"
+          />
           <motion.div
             animate={isHovered ? { scale: [1, 1.15, 1] } : { scale: 1 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="relative z-10"
           >
             <Icon
-              className="size-7 text-black/50 dark:text-white/50 transition-colors duration-300 group-hover:text-black/80 dark:group-hover:text-white/80"
+              className="size-7 text-black/40 dark:text-white/40 transition-all duration-300 group-hover:text-black dark:group-hover:text-white"
               strokeWidth={1.5}
+              style={{
+                filter: isHovered
+                  ? "drop-shadow(0 0 8px rgba(0,0,0,0.15))"
+                  : "none",
+                transition: "filter 0.3s ease",
+              }}
             />
           </motion.div>
 

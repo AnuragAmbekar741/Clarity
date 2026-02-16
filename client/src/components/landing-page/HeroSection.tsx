@@ -12,8 +12,6 @@ export function HeroSection() {
   });
 
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -150]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
@@ -22,28 +20,6 @@ export function HeroSection() {
       ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Parallax floating elements — abstract geometric shapes */}
-      <motion.div
-        style={{ y: y3 }}
-        className="absolute top-[15%] left-[8%] size-72 rounded-full border border-black/4 dark:border-white/4"
-      />
-      <motion.div
-        style={{ y: y2 }}
-        className="absolute top-[60%] right-[10%] size-48 rounded-full border border-black/6 dark:border-white/6"
-      />
-      <motion.div
-        style={{ y: y1 }}
-        className="absolute top-[30%] right-[25%] size-2 rounded-full bg-black/20 dark:bg-white/20 animate-[float_6s_ease-in-out_infinite]"
-      />
-      <motion.div
-        style={{ y: y3 }}
-        className="absolute top-[70%] left-[20%] size-1.5 rounded-full bg-black/15 dark:bg-white/15 animate-[float_8s_ease-in-out_infinite_1s]"
-      />
-      <motion.div
-        style={{ y: y2 }}
-        className="absolute top-[20%] right-[15%] size-1 rounded-full bg-black/10 dark:bg-white/10 animate-[float_7s_ease-in-out_infinite_2s]"
-      />
-
       {/* Main content */}
       <motion.div
         style={{ y: y1, opacity, scale }}
@@ -65,32 +41,21 @@ export function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Heading — Line 1 */}
+        {/* Heading */}
         <div className="overflow-hidden">
           <motion.h1
             initial={{ y: "110%" }}
             animate={{ y: 0 }}
             transition={{ duration: 1, delay: 0.15, ease }}
-            className="font-[Syne] text-[clamp(3rem,8vw,6.5rem)] leading-[0.95] tracking-[-0.04em] text-black dark:text-white font-bold"
+            className="font-[Syne] text-[clamp(3rem,8vw,6.5rem)] leading-[0.95] tracking-[-0.04em] text-black dark:text-white font-bold text-balance"
           >
             Get{" "}
             <span className="italic font-['Newsreader'] font-medium">
               <span className="bg-linear-to-r from-black via-black/30 to-black dark:from-white dark:via-white/30 dark:to-white bg-clip-text text-transparent bg-size-[200%_100%] animate-[gradient-shift_4s_ease-in-out_infinite]">
                 clarity
               </span>
-            </span>
-          </motion.h1>
-        </div>
-
-        {/* Heading — Line 2 */}
-        <div className="overflow-hidden -mt-1">
-          <motion.h1
-            initial={{ y: "110%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease }}
-            className="font-[Syne] text-[clamp(3rem,8vw,6.5rem)] leading-[0.95] tracking-[-0.04em] text-black dark:text-white font-bold"
-          >
-            over your inbox.
+            </span>{" "}
+            over your&nbsp;inbox.
           </motion.h1>
         </div>
 
@@ -99,7 +64,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55, ease }}
-          className="font-['DM_Sans'] text-[18px] md:text-[20px] leading-[1.7] text-black/50 dark:text-white/50 font-light max-w-lg mt-8 mb-12"
+          className="font-['DM_Sans'] text-lg leading-[1.7] text-black/50 dark:text-white/50 font-light max-w-lg mt-8 mb-12"
         >
           Clarity reads, labels, and organizes every email{" "}
           <span className="text-black/80 dark:text-white/80 font-normal">
