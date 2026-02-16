@@ -1,22 +1,34 @@
 import { Navbar } from "./Navbar";
 import { HeroSection } from "./HeroSection";
+import { FeaturesSection } from "./FeaturesSection";
+import { DemoSection } from "./DemoSection";
+import { HowItWorksSection } from "./HowItWorksSection";
+import { Footer } from "./Footer";
 
 export function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen bg-white dark:bg-[#0a0a0a] transition-colors duration-300">
       {/* ── Background layers ── */}
 
-      {/* 1. Dot grid pattern */}
+      {/* 1. Dot grid pattern — adapts to theme */}
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none opacity-100 dark:opacity-30"
         style={{
           backgroundImage:
             "radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
+      <div
+        className="fixed inset-0 pointer-events-none opacity-0 dark:opacity-100"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
 
-      {/* 2. Radial gradient orbs — create focal depth */}
+      {/* 2. Radial gradient orbs — depth */}
       <div
         className="absolute top-[15%] left-[10%] w-150 h-150 pointer-events-none"
         style={{
@@ -25,22 +37,29 @@ export function LandingPage() {
         }}
       />
       <div
-        className="absolute top-[5%] right-[5%] w-175 h-175 pointer-events-none"
+        className="absolute top-[15%] left-[10%] w-150 h-150 pointer-events-none hidden dark:block"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute top-[5%] right-[5%] w-175 h-175 pointer-events-none dark:hidden"
         style={{
           background:
             "radial-gradient(circle, rgba(0,0,0,0.025) 0%, transparent 65%)",
         }}
       />
       <div
-        className="absolute bottom-[-10%] left-[40%] w-125 h-125 pointer-events-none"
+        className="absolute top-[5%] right-[5%] w-175 h-175 pointer-events-none hidden dark:block"
         style={{
           background:
-            "radial-gradient(circle, rgba(0,0,0,0.02) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(255,255,255,0.015) 0%, transparent 65%)",
         }}
       />
 
-      {/* 3. Film grain overlay (SVG noise filter) */}
-      <svg className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.35]">
+      {/* 3. Film grain overlay */}
+      <svg className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.3] dark:opacity-[0.2]">
         <filter id="grain">
           <feTurbulence
             type="fractalNoise"
@@ -53,12 +72,12 @@ export function LandingPage() {
         <rect width="100%" height="100%" filter="url(#grain)" />
       </svg>
 
-      {/* 4. Subtle vignette — darker edges */}
+      {/* 4. Vignette */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.03) 100%)",
+            "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.04) 100%)",
         }}
       />
 
@@ -66,6 +85,10 @@ export function LandingPage() {
       <div className="relative z-10">
         <Navbar />
         <HeroSection />
+        <FeaturesSection />
+        <DemoSection />
+        <HowItWorksSection />
+        <Footer />
       </div>
     </div>
   );
