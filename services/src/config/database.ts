@@ -10,6 +10,7 @@ export const AppDataSource = new DataSource({
   username: env.DB_USERNAME,
   password: env.DB_PASSWORD,
   database: env.DB_NAME,
+  ssl: env.DB_HOST !== "localhost" ? { rejectUnauthorized: false } : false,
 
   // Entities - explicitly loaded
   entities: [User],

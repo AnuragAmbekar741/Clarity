@@ -210,9 +210,7 @@ export function AuthPage() {
             className="font-[Syne] text-[clamp(1.8rem,5vw,2.5rem)] font-bold leading-tight tracking-[-0.03em] text-black dark:text-white mb-3"
           >
             Welcome{" "}
-            <span className="italic font-['Newsreader'] font-medium">
-              back
-            </span>
+            <span className="italic font-['Newsreader'] font-medium">back</span>
           </motion.h1>
 
           <motion.p
@@ -229,7 +227,9 @@ export function AuthPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4, ease }}
-            className={`w-full ${isPending ? "opacity-50 pointer-events-none" : ""}`}
+            className={`w-full ${
+              isPending ? "opacity-50 pointer-events-none" : ""
+            }`}
           >
             <div className="flex justify-center">
               <GoogleLogin
