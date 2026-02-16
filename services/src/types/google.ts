@@ -1,3 +1,5 @@
+import { User } from "../entities/User.entity.js";
+
 interface GoogleTokenPayload {
   sub: string; // googleId
   email: string;
@@ -27,7 +29,7 @@ interface GoogleUserData {
 
 // 4. Final Response to Frontend
 interface AuthResponse {
-  user: GoogleUserData;
+  user: User;
 }
 
 export {
