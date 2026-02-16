@@ -5,6 +5,7 @@ import {
   GoogleUserData,
   AuthResponse,
 } from "../../types/google.js";
+import { userService } from "../user/user.service.js";
 
 export class AuthService {
   private GOOGLE_CLIENT: OAuth2Client;
@@ -34,7 +35,8 @@ export class AuthService {
   }
 
   async googleCallback(idToken: string): Promise<AuthResponse> {
-    const user = await this.verifyAndExtractUser(idToken);
+    const userData = await this.verifyAndExtractUser(idToken);
+    const user = await userService.findOrCreateUser(userData);
     return {
       user,
     };
