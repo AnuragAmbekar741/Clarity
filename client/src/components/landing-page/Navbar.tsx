@@ -48,14 +48,13 @@ export function Navbar() {
           {/* Nav links - hidden on mobile */}
           <div className="hidden md:flex items-center gap-6">
             {["Features", "How it works", "Demo"].map((item) => (
-              <motion.a
+              <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
-                whileHover={{ y: -1 }}
                 className="font-['DM_Sans'] text-[13px] text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors duration-200 tracking-tight"
               >
                 {item}
-              </motion.a>
+              </a>
             ))}
           </div>
 

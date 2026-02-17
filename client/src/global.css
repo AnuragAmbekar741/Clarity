@@ -121,6 +121,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
 }
 
 @keyframes gradient-shift {
