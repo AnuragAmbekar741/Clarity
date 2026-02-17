@@ -10,13 +10,28 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
-// Response interceptor - handle auth errors globally
+// Response interceptor - try token refresh on 401
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      window.location.href = "/auth";
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes("/api/auth/")
+    ) {
+      originalRequest._retry = true;
+
+      try {
+        await apiClient.post("/api/auth/refresh-token");
+        return apiClient(originalRequest);
+      } catch {
+        window.location.href = "/auth";
+        return Promise.reject(error);
+      }
     }
+
     return Promise.reject(error);
   }
 );

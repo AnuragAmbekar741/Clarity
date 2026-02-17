@@ -7,6 +7,7 @@ import {
 import { ThemeProvider } from "../components/theme/theme-providers";
 import { LandingPage } from "../components/landing-page/LandingPage";
 import { AuthPage } from "../components/auth/AuthPage";
+import { ProtectedRoute } from "../components/auth/ProtectedRoute";
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -16,6 +17,7 @@ const rootRoute = createRootRoute({
   ),
 });
 
+// Public routes
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
@@ -28,7 +30,25 @@ const authRoute = createRoute({
   component: AuthPage,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, authRoute]);
+// Protected layout - all children require authentication
+const protectedLayout = createRoute({
+  getParentRoute: () => rootRoute,
+  id: "protected",
+  component: ProtectedRoute,
+});
+
+// Add protected child routes here
+const dashboardRoute = createRoute({
+  getParentRoute: () => protectedLayout,
+  path: "/dashboard",
+  component: () => <div>Dashboard (protected)</div>,
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  authRoute,
+  protectedLayout.addChildren([dashboardRoute]),
+]);
 
 export const router = createRouter({ routeTree });
 

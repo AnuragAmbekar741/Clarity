@@ -1,10 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { authService } from "@/api/auth";
 import type { CredentialResponse } from "@react-oauth/google";
 
 export function useGoogleAuth() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (credentialResponse: CredentialResponse) => {
@@ -14,17 +15,11 @@ export function useGoogleAuth() {
         throw new Error("No credential received from Google");
       }
 
-      // Call the auth service to verify token and get JWT
       return authService.googleLogin(idToken);
     },
-    onSuccess: (data) => {
-      const { user } = data;
-
-      // Store user in localStorage
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // Redirect to home after successful auth
-      navigate({ to: "/" });
+    onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ["auth", "me"] });
+      navigate({ to: "/dashboard" });
     },
     onError: (error) => {
       console.error("Google auth error:", error);
@@ -39,8 +34,9 @@ export function useGoogleAuth() {
     mutation.reset();
   };
 
-  const logout = () => {
-    authService.logout();
+  const logout = async () => {
+    await authService.logout();
+    queryClient.removeQueries({ queryKey: ["auth", "me"] });
     navigate({ to: "/auth" });
   };
 
