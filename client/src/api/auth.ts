@@ -11,14 +11,11 @@ export const authService = {
   },
 
   logout: async (): Promise<void> => {
-    // TODO: Add logout endpoint to backend if needed
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
+    await apiClient.post("/api/auth/logout");
   },
 
   getCurrentUser: async () => {
-    // TODO: Add endpoint to fetch current user from backend
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user) : null;
+    const response = await apiClient.get("/api/auth/me");
+    return response.data;
   },
 };

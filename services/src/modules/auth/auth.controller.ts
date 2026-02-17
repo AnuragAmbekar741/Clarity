@@ -1,9 +1,14 @@
 import { Request, Response, CookieOptions } from "express";
 import ms from "ms";
-import { ValidationError } from "../../utils/errors.js";
+import { UnauthorizedError, ValidationError } from "../../utils/errors.js";
 import { AuthService } from "./auth.service.js";
-import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} from "../../utils/jwt.js";
 import { env } from "../../config/env.js";
+import { userService } from "../user/user.service.js";
 
 const isProduction = env.NODE_ENV === "production";
 
@@ -38,6 +43,33 @@ export class AuthController {
     return res.status(200).json({
       status: "success",
       data: { user: { name, email, avatar } },
+    });
+  }
+
+  async refreshAccessToken(req: Request, res: Response) {
+    const refreshToken = req.cookies.refresh_token;
+    if (!refreshToken) throw new UnauthorizedError("Refresh token missing");
+    const decode = verifyRefreshToken(refreshToken);
+    const tokenPayload = {
+      email: decode.email,
+      id: decode.userId,
+    };
+    const accessToken = generateAccessToken(tokenPayload);
+    res.cookie("access_token", accessToken, {
+      ...cookieDefaults,
+      maxAge: ms((env.JWT_ACCESS_EXPIRES_IN || "15m") as ms.StringValue),
+    });
+    return res.status(200).json({ status: "success" });
+  }
+
+  async me(req: Request, res: Response) {
+    const user = await userService.findById(req.user!.userId);
+    if (!user) throw new UnauthorizedError("User not found");
+    return res.status(200).json({
+      status: "success",
+      data: {
+        user: { name: user.name, email: user.email, avatar: user.avatar },
+      },
     });
   }
 }

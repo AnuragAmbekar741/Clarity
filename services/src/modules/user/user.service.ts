@@ -1,7 +1,6 @@
 import { User } from "../../entities/User.entity.js";
 import { GoogleUserData } from "../../types/google.js";
 import { AppDataSource } from "../../config/database.js";
-import e from "cors";
 
 class UserService {
   private userRepo = AppDataSource.getRepository(User);
@@ -20,6 +19,13 @@ class UserService {
       avatar: userData.avatar,
     });
     return await this.userRepo.save(newUser);
+  }
+
+  async findById(userId: string): Promise<User | null> {
+    const user = await this.userRepo.findOneBy({
+      id: userId,
+    });
+    return user;
   }
 }
 

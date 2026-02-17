@@ -7,6 +7,11 @@ type TokenUser = {
   email: string;
 };
 
+type TokenPayload = {
+  userId: string;
+  email: string;
+};
+
 export function generateAccessToken(user: TokenUser): string {
   if (!env.JWT_ACCESS_SECRET) {
     throw new Error("JWT_ACCESS_SECRET is not defined");
@@ -17,12 +22,26 @@ export function generateAccessToken(user: TokenUser): string {
   });
 }
 
+export function verifyAccessToken(token: string): TokenPayload {
+  if (!env.JWT_ACCESS_SECRET) {
+    throw new Error("JWT_ACCESS_SECRET is not defined");
+  }
+  return jwt.verify(token, env.JWT_ACCESS_SECRET) as TokenPayload;
+}
+
 export function generateRefreshToken(user: TokenUser): string {
   if (!env.JWT_REFRESH_SECRET) {
     throw new Error("JWT_REFRESH_SECRET is not defined");
   }
-  const payload = { userId: user.id };
+  const payload = { userId: user.id, email: user.email };
   return jwt.sign(payload, env.JWT_REFRESH_SECRET, {
     expiresIn: (env.JWT_REFRESH_EXPIRES_IN || "7d") as StringValue,
   });
+}
+
+export function verifyRefreshToken(token: string): TokenPayload {
+  if (!env.JWT_REFRESH_SECRET) {
+    throw new Error("JWT_REFRESH_SECRET is not defined");
+  }
+  return jwt.verify(token, env.JWT_REFRESH_SECRET) as TokenPayload;
 }
