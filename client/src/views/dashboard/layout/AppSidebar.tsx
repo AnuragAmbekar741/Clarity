@@ -64,7 +64,7 @@ export function AppSidebar() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <Sidebar variant="inset" collapsible="icon">
+    <Sidebar variant="inset" collapsible="icon" className="bg-muted/3">
       <SidebarHeader className="px-4 py-3">
         <div className="flex items-center gap-2">
           <div className="size-7 bg-black dark:bg-white rounded-md flex items-center justify-center shrink-0">
