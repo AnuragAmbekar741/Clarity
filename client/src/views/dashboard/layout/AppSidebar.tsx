@@ -1,4 +1,4 @@
-import { useRouterState, Link } from "@tanstack/react-router";
+import { useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Mail,
   Star,
@@ -54,6 +54,7 @@ export function AppSidebar() {
   const { pathname } = useRouterState({ select: (s) => ({ pathname: s.location.pathname }) });
   const { user } = useAuth();
   const { logout } = useGoogleAuth();
+  const navigate = useNavigate();
 
   const getInitials = (email?: string) => {
     if (!email) return "?";
@@ -87,13 +88,11 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.to}>
                     <SidebarMenuButton
                       isActive={isActive(item.to)}
+                      onClick={() => navigate({ to: item.to })}
                       className="cursor-pointer"
-                      asChild
                     >
-                      <Link to={item.to}>
-                        <item.icon className="size-4" />
-                        <span>{item.label}</span>
-                      </Link>
+                      <item.icon className="size-4" />
+                      <span>{item.label}</span>
                     </SidebarMenuButton>
                     {item.badge && (
                       <SidebarMenuBadge>
@@ -118,13 +117,11 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.to}>
                     <SidebarMenuButton
                       isActive={isActive(item.to)}
+                      onClick={() => navigate({ to: item.to })}
                       className="cursor-pointer"
-                      asChild
                     >
-                      <Link to={item.to}>
-                        <item.icon className="size-4" />
-                        <span>{item.label}</span>
-                      </Link>
+                      <item.icon className="size-4" />
+                      <span>{item.label}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -171,11 +168,9 @@ export function AppSidebar() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/dashboard/settings" className="cursor-pointer flex items-center">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </Link>
+                <DropdownMenuItem onClick={() => navigate({ to: "/dashboard/settings" })} className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600 dark:text-red-400">
