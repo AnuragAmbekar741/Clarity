@@ -18,7 +18,7 @@ import {
   SidebarMenu,
   SidebarMenuBadge,
   SidebarMenuButton,
-  SidebarMenuSeparator,
+  SidebarSeparator,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -66,7 +66,7 @@ export function AppSidebar() {
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader className="px-4 py-3">
         <div className="flex items-center gap-2">
-          <div className="size-7 bg-black dark:bg-white rounded-md flex items-center justify-center flex-shrink-0">
+          <div className="size-7 bg-black dark:bg-white rounded-md flex items-center justify-center shrink-0">
             <span className="font-[Syne] font-bold text-[11px] text-white dark:text-black tracking-tight">
               C
             </span>
@@ -108,7 +108,7 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
 
-          <SidebarMenuSeparator className="mx-2 my-2" />
+          <SidebarSeparator className="mx-2 my-2" />
 
           <SidebarGroup>
             <SidebarGroupLabel>Other</SidebarGroupLabel>
