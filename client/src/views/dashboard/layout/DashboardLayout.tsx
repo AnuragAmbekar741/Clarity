@@ -53,17 +53,17 @@ export function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex items-center gap-2 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-4 py-3 h-16 sticky top-0 z-40">
-          <SidebarTrigger className="h-9 w-9 -ml-2 md:hidden" />
+        <header className="flex items-center gap-2 border-b border-muted/20 bg-background px-6 py-4 h-16 sticky top-0 z-40">
+          <SidebarTrigger className="h-8 w-8 -ml-2 md:hidden" />
           <div className="hidden md:flex">
-            <SidebarTrigger className="h-9 w-9" />
+            <SidebarTrigger className="h-8 w-8" />
           </div>
-          <Separator orientation="vertical" className="h-6 hidden md:block" />
+          <Separator orientation="vertical" className="h-6 hidden md:block bg-muted/20" />
           <Breadcrumbs />
         </header>
 
-        <main className="flex-1 overflow-y-auto">
-          <div className="container mx-auto px-4 py-6">
+        <main className="flex-1 overflow-y-auto bg-muted/5">
+          <div className="max-w-7xl mx-auto px-6 py-8">
             <Outlet />
           </div>
         </main>
