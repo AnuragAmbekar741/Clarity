@@ -5,8 +5,8 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 import { ThemeProvider } from "../components/theme/theme-providers";
-import { LandingPage } from "../components/landing-page/LandingPage";
-import { AuthPage } from "../components/auth/AuthPage";
+import { Landing } from "../views/landing/Landing";
+import { Auth } from "../views/auth/Auth";
 import { PublicRoute } from "../components/auth/PublicRoute";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute";
 
@@ -29,13 +29,13 @@ const publicLayout = createRoute({
 const indexRoute = createRoute({
   getParentRoute: () => publicLayout,
   path: "/",
-  component: LandingPage,
+  component: Landing,
 });
 
 const authRoute = createRoute({
   getParentRoute: () => publicLayout,
   path: "/auth",
-  component: AuthPage,
+  component: Auth,
 });
 
 // Protected layout - redirects unauthenticated users to auth
