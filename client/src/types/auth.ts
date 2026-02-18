@@ -1,14 +1,13 @@
+export interface ApiResponse<T> {
+  status: string;
+  data: T;
+}
+
 export interface AuthResponse {
-  user: {
-    googleId: string;
-    email: string;
-    name: string;
-    avatar?: string;
-  };
+  user: User;
 }
 
 export interface User {
-  googleId: string;
   email: string;
   name: string;
   avatar?: string;

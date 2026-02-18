@@ -1,24 +1,25 @@
 import { apiClient } from "@/services/global.client";
-import type { AuthResponse } from "@/types/auth";
+import type { ApiResponse, AuthResponse } from "@/types/auth";
 
 export const authService = {
   googleLogin: async (idToken: string): Promise<AuthResponse> => {
-    const response = await apiClient.post<AuthResponse>(
+    const response = await apiClient.post<ApiResponse<AuthResponse>>(
       "/api/auth/google/callback",
       { idToken }
     );
-    return response.data;
+    return response.data.data;
   },
 
   logout: async (): Promise<void> => {
-    // TODO: Add logout endpoint to backend if needed
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
+    await apiClient.post("/api/auth/logout");
   },
 
-  getCurrentUser: async () => {
-    // TODO: Add endpoint to fetch current user from backend
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user) : null;
+  getCurrentUser: async (): Promise<AuthResponse> => {
+    const response = await apiClient.get<ApiResponse<AuthResponse>>("/api/auth/me");
+    return response.data.data;
+  },
+
+  refreshToken: async (): Promise<void> => {
+    await apiClient.post("/api/auth/refresh-token");
   },
 };

@@ -2,6 +2,7 @@ import "reflect-metadata";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import router from "./routes/index.js";
 import { errorHandler } from "./middleware/error-handler.js";
@@ -12,6 +13,8 @@ const app = express();
 app.use(helmet());
 app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
 app.use(express.json());
+
+app.use(cookieParser());
 
 // All routes go through the central router with /api prefix
 app.use("/api", router);

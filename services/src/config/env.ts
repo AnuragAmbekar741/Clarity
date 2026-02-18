@@ -19,7 +19,10 @@ export const env = {
     process.env.GOOGLE_REDIRECT_URI ||
     "http://localhost:8000/api/auth/google/callback",
 
-  // JWT
-  JWT_SECRET: process.env.JWT_SECRET || "dev-secret-change-in-production",
-  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "7d",
-} as const;
+  // JWT ACCESS and REFRESH
+  JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || "",
+  JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || 15 * 60,
+
+  JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || "",
+  JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
+};

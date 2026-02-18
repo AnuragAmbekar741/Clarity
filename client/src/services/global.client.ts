@@ -10,24 +10,28 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor - add JWT token if available
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("authToken");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-// Response interceptor - handle errors globally
+// Response interceptor - try token refresh on 401
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Token expired or invalid
-      localStorage.removeItem("authToken");
-      window.location.href = "/auth";
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes("/api/auth/")
+    ) {
+      originalRequest._retry = true;
+
+      try {
+        await apiClient.post("/api/auth/refresh-token");
+        return apiClient(originalRequest);
+      } catch {
+        window.location.href = "/auth";
+        return Promise.reject(error);
+      }
     }
+
     return Promise.reject(error);
   }
 );
