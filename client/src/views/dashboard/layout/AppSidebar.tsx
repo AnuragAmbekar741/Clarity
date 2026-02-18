@@ -1,4 +1,4 @@
-import { useRouterState } from "@tanstack/react-router";
+import { useRouterState, Link } from "@tanstack/react-router";
 import {
   Mail,
   Star,
@@ -86,14 +86,14 @@ export function AppSidebar() {
                 {mailItems.map((item) => (
                   <SidebarMenuItem key={item.to}>
                     <SidebarMenuButton
-                      asChild
                       isActive={isActive(item.to)}
                       className="cursor-pointer"
+                      asChild
                     >
-                      <a href={item.to} className="flex items-center gap-2">
+                      <Link to={item.to}>
                         <item.icon className="size-4" />
                         <span>{item.label}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                     {item.badge && (
                       <SidebarMenuBadge>
@@ -117,14 +117,14 @@ export function AppSidebar() {
                 {otherItems.map((item) => (
                   <SidebarMenuItem key={item.to}>
                     <SidebarMenuButton
-                      asChild
                       isActive={isActive(item.to)}
                       className="cursor-pointer"
+                      asChild
                     >
-                      <a href={item.to} className="flex items-center gap-2">
+                      <Link to={item.to}>
                         <item.icon className="size-4" />
                         <span>{item.label}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -172,10 +172,10 @@ export function AppSidebar() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <a href="/dashboard/settings" className="cursor-pointer">
+                  <Link to="/dashboard/settings" className="cursor-pointer flex items-center">
                     <Settings className="mr-2 h-4 w-4" />
                     Settings
-                  </a>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600 dark:text-red-400">
