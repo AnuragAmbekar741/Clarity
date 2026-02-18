@@ -51,7 +51,9 @@ const otherItems = [
 ];
 
 export function AppSidebar() {
-  const { pathname } = useRouterState({ select: (s) => ({ pathname: s.location.pathname }) });
+  const { pathname } = useRouterState({
+    select: (s) => ({ pathname: s.location.pathname }),
+  });
   const { user } = useAuth();
   const { logout } = useGoogleAuth();
   const navigate = useNavigate();
@@ -64,8 +66,12 @@ export function AppSidebar() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <Sidebar variant="inset" collapsible="icon" className="bg-muted/3">
-      <SidebarHeader className="px-4 py-3">
+    <Sidebar
+      variant="inset"
+      collapsible="icon"
+      className="bg-muted/3 border-r p-0"
+    >
+      <SidebarHeader className="p-[1.1rem] border-b">
         <div className="flex items-center gap-2">
           <div className="size-7 bg-black dark:bg-white rounded-md flex items-center justify-center shrink-0">
             <span className="font-[Syne] font-bold text-[11px] text-white dark:text-black tracking-tight">
@@ -96,7 +102,10 @@ export function AppSidebar() {
                     </SidebarMenuButton>
                     {item.badge && (
                       <SidebarMenuBadge>
-                        <Badge variant="default" className="h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] font-bold">
+                        <Badge
+                          variant="default"
+                          className="h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] font-bold"
+                        >
                           {item.badge}
                         </Badge>
                       </SidebarMenuBadge>
@@ -163,17 +172,27 @@ export function AppSidebar() {
               >
                 <DropdownMenuLabel>
                   <div className="flex flex-col">
-                    <span className="font-semibold">{user?.email?.split("@")[0]}</span>
-                    <span className="text-xs text-muted-foreground">{user?.email}</span>
+                    <span className="font-semibold">
+                      {user?.email?.split("@")[0]}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {user?.email}
+                    </span>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate({ to: "/dashboard/settings" })} className="cursor-pointer">
+                <DropdownMenuItem
+                  onClick={() => navigate({ to: "/dashboard/settings" })}
+                  className="cursor-pointer"
+                >
                   <Settings className="mr-2 h-4 w-4" />
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600 dark:text-red-400">
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="cursor-pointer text-red-600 dark:text-red-400"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout
                 </DropdownMenuItem>
