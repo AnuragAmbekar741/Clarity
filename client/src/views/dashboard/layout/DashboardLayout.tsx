@@ -77,7 +77,7 @@ export function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex items-center gap-2 border-b bg-background px-8 py-4 h-16 sticky top-0 z-40">
+        <header className="flex items-center gap-2 border-b bg-muted/2 px-8 py-4 h-16 sticky top-0 z-40">
           <SidebarTrigger className="h-8 w-8 -ml-2 md:hidden" />
           <div className="hidden md:flex">
             <SidebarTrigger className="h-8 w-8" />
