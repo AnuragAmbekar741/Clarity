@@ -248,7 +248,7 @@ export function Auth() {
               animate={{ opacity: 1, y: 0 }}
               className="mt-4 text-sm text-red-500 dark:text-red-400 font-['DM_Sans']"
             >
-              {(error as any)?.message || "Authentication failed"}
+              {error instanceof Error ? error.message : "Authentication failed"}
             </motion.p>
           )}
 
