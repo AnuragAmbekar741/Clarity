@@ -19,5 +19,9 @@ router.get(
   guard,
   asyncHandler((req, res) => auth.me(req, res))
 );
+router.post(
+  "/logout",
+  asyncHandler((req, res) => auth.logout(req, res))
+);
 
 export default router;

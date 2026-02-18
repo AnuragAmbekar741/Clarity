@@ -9,6 +9,13 @@ import { Landing } from "../views/landing/Landing";
 import { Auth } from "../views/auth/Auth";
 import { PublicRoute } from "../components/auth/PublicRoute";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute";
+import { DashboardLayout } from "../views/dashboard/layout/DashboardLayout";
+import { DashboardHome } from "../views/dashboard/pages/home/DashboardHome";
+import { DashboardStarred } from "../views/dashboard/pages/mail/Starred";
+import { DashboardSent } from "../views/dashboard/pages/mail/Sent";
+import { DashboardDrafts } from "../views/dashboard/pages/mail/Drafts";
+import { DashboardArchive } from "../views/dashboard/pages/mail/Archive";
+import { DashboardSettings } from "../views/dashboard/pages/settings/DashboardSettings";
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -45,16 +52,62 @@ const protectedLayout = createRoute({
   component: ProtectedRoute,
 });
 
-// Protected routes (children of protectedLayout)
-const dashboardRoute = createRoute({
+// Dashboard layout - wraps all dashboard pages with sidebar
+const dashboardLayout = createRoute({
   getParentRoute: () => protectedLayout,
+  id: "dashboard-layout",
+  component: DashboardLayout,
+});
+
+// Dashboard routes (children of dashboardLayout)
+const dashboardHomeRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
   path: "/dashboard",
-  component: () => <div>Dashboard (protected)</div>,
+  component: DashboardHome,
+});
+
+const dashboardStarredRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
+  path: "/dashboard/starred",
+  component: DashboardStarred,
+});
+
+const dashboardSentRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
+  path: "/dashboard/sent",
+  component: DashboardSent,
+});
+
+const dashboardDraftsRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
+  path: "/dashboard/drafts",
+  component: DashboardDrafts,
+});
+
+const dashboardArchiveRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
+  path: "/dashboard/archive",
+  component: DashboardArchive,
+});
+
+const dashboardSettingsRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
+  path: "/dashboard/settings",
+  component: DashboardSettings,
 });
 
 const routeTree = rootRoute.addChildren([
   publicLayout.addChildren([indexRoute, authRoute]),
-  protectedLayout.addChildren([dashboardRoute]),
+  protectedLayout.addChildren([
+    dashboardLayout.addChildren([
+      dashboardHomeRoute,
+      dashboardStarredRoute,
+      dashboardSentRoute,
+      dashboardDraftsRoute,
+      dashboardArchiveRoute,
+      dashboardSettingsRoute,
+    ]),
+  ]),
 ]);
 
 export const router = createRouter({ routeTree });
