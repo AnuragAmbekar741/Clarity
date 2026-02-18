@@ -9,6 +9,8 @@ import { Landing } from "../views/landing/Landing";
 import { Auth } from "../views/auth/Auth";
 import { PublicRoute } from "../components/auth/PublicRoute";
 import { ProtectedRoute } from "../components/auth/ProtectedRoute";
+import { DashboardLayout } from "../views/dashboard/layout/DashboardLayout";
+import { DashboardHome } from "../views/dashboard/pages/home/DashboardHome";
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -45,16 +47,23 @@ const protectedLayout = createRoute({
   component: ProtectedRoute,
 });
 
-// Protected routes (children of protectedLayout)
-const dashboardRoute = createRoute({
+// Dashboard layout - wraps all dashboard pages with sidebar
+const dashboardLayout = createRoute({
   getParentRoute: () => protectedLayout,
+  id: "dashboard-layout",
+  component: DashboardLayout,
+});
+
+// Dashboard routes (children of dashboardLayout)
+const dashboardHomeRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
   path: "/dashboard",
-  component: () => <div>Dashboard (protected)</div>,
+  component: DashboardHome,
 });
 
 const routeTree = rootRoute.addChildren([
   publicLayout.addChildren([indexRoute, authRoute]),
-  protectedLayout.addChildren([dashboardRoute]),
+  protectedLayout.addChildren([dashboardLayout.addChildren([dashboardHomeRoute])]),
 ]);
 
 export const router = createRouter({ routeTree });
