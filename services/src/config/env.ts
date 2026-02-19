@@ -19,6 +19,11 @@ export const env = {
     process.env.GOOGLE_REDIRECT_URI ||
     "http://localhost:8000/api/auth/google/callback",
 
+  // Gmail OAuth (separate callback from sign-in)
+  GMAIL_REDIRECT_URI:
+    process.env.GMAIL_REDIRECT_URI ||
+    "http://localhost:8000/api/gmail/callback",
+
   // JWT ACCESS and REFRESH
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || "",
   JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || 15 * 60,
