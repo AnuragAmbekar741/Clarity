@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { env } from "./env.js";
 import { User } from "../entities/User.entity.js";
+import { GmailAccount } from "../entities/GmailAccount.entity.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,7 +14,7 @@ export const AppDataSource = new DataSource({
   ssl: env.DB_HOST !== "localhost" ? { rejectUnauthorized: false } : false,
 
   // Entities - explicitly loaded
-  entities: [User],
+  entities: [User, GmailAccount],
 
   // Migrations - TypeORM will load all migration files from this directory
   migrations: ["dist/migrations/*.js"],
