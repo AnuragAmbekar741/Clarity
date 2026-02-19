@@ -18,3 +18,11 @@ export interface GoogleAuthState {
   error: string | null;
   user: User | null;
 }
+
+export interface GmailAccount {
+  id: string;
+  googleEmail: string;
+  isDefault: boolean;
+  createdAt: string;
+  expiresAt: string;
+}

@@ -16,6 +16,8 @@ import { DashboardSent } from "../views/dashboard/pages/mail/Sent";
 import { DashboardDrafts } from "../views/dashboard/pages/mail/Drafts";
 import { DashboardArchive } from "../views/dashboard/pages/mail/Archive";
 import { DashboardSettings } from "../views/dashboard/pages/settings/DashboardSettings";
+import { GmailSuccess } from "../views/dashboard/pages/gmail/GmailSuccess";
+import { GmailError } from "../views/dashboard/pages/gmail/GmailError";
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -43,6 +45,18 @@ const authRoute = createRoute({
   getParentRoute: () => publicLayout,
   path: "/auth",
   component: Auth,
+});
+
+const gmailSuccessRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/gmail/success",
+  component: GmailSuccess,
+});
+
+const gmailErrorRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/gmail/error",
+  component: GmailError,
 });
 
 // Protected layout - redirects unauthenticated users to auth
@@ -108,6 +122,8 @@ const routeTree = rootRoute.addChildren([
       dashboardSettingsRoute,
     ]),
   ]),
+  gmailSuccessRoute,
+  gmailErrorRoute,
 ]);
 
 export const router = createRouter({ routeTree });
