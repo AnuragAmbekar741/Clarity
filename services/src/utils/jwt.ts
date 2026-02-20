@@ -18,7 +18,7 @@ export function generateAccessToken(user: TokenUser): string {
   }
   const payload = { userId: user.id, email: user.email };
   return jwt.sign(payload, env.JWT_ACCESS_SECRET, {
-    expiresIn: (env.JWT_ACCESS_EXPIRES_IN || "15m") as StringValue,
+    expiresIn: env.JWT_ACCESS_EXPIRES_IN as StringValue,
   });
 }
 
@@ -35,7 +35,7 @@ export function generateRefreshToken(user: TokenUser): string {
   }
   const payload = { userId: user.id, email: user.email };
   return jwt.sign(payload, env.JWT_REFRESH_SECRET, {
-    expiresIn: (env.JWT_REFRESH_EXPIRES_IN || "7d") as StringValue,
+    expiresIn: env.JWT_REFRESH_EXPIRES_IN as StringValue,
   });
 }
 
