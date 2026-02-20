@@ -32,34 +32,58 @@ export class AuthController {
     };
     const accessToken = generateAccessToken(tokenPayload);
     const refreshToken = generateRefreshToken(tokenPayload);
+
+    const accessTokenMaxAge = ms(env.JWT_ACCESS_EXPIRES_IN as ms.StringValue);
+    const refreshTokenMaxAge = ms(env.JWT_REFRESH_EXPIRES_IN as ms.StringValue);
+
     res.cookie("access_token", accessToken, {
       ...cookieDefaults,
-      maxAge: ms((env.JWT_ACCESS_EXPIRES_IN || "15m") as ms.StringValue),
+      maxAge: accessTokenMaxAge,
     });
     res.cookie("refresh_token", refreshToken, {
       ...cookieDefaults,
-      maxAge: ms((env.JWT_REFRESH_EXPIRES_IN || "7d") as ms.StringValue),
+      maxAge: refreshTokenMaxAge,
     });
+
     return res.status(200).json({
       status: "success",
-      data: { user: { name, email, avatar } },
+      data: {
+        user: { name, email, avatar },
+        expiresAt: Date.now() + accessTokenMaxAge,
+      },
     });
   }
 
   async refreshAccessToken(req: Request, res: Response) {
+    console.log(
+      "[RefreshToken] Refresh token endpoint called at",
+      new Date().toISOString()
+    );
     const refreshToken = req.cookies.refresh_token;
-    if (!refreshToken) throw new UnauthorizedError("Refresh token missing");
+    if (!refreshToken) {
+      console.log("[RefreshToken] ERROR: Refresh token missing from cookies");
+      throw new UnauthorizedError("Refresh token missing");
+    }
     const decode = verifyRefreshToken(refreshToken);
+    console.log("[RefreshToken] Token verified for user:", decode.userId);
     const tokenPayload = {
       email: decode.email,
       id: decode.userId,
     };
     const accessToken = generateAccessToken(tokenPayload);
+
+    const accessTokenMaxAge = ms(
+      (env.JWT_ACCESS_EXPIRES_IN || "1m") as ms.StringValue
+    );
+
     res.cookie("access_token", accessToken, {
       ...cookieDefaults,
-      maxAge: ms((env.JWT_ACCESS_EXPIRES_IN || "15m") as ms.StringValue),
+      maxAge: accessTokenMaxAge,
     });
-    return res.status(200).json({ status: "success" });
+    return res.status(200).json({
+      status: "success",
+      expiresAt: Date.now() + accessTokenMaxAge,
+    });
   }
 
   async me(req: Request, res: Response) {

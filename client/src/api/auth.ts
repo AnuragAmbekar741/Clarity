@@ -7,19 +7,36 @@ export const authService = {
       "/api/auth/google/callback",
       { idToken }
     );
-    return response.data.data;
+    const data = response.data.data;
+    if (data.expiresAt) {
+      localStorage.setItem("token_expires_at", data.expiresAt.toString());
+    }
+    return data;
   },
 
   logout: async (): Promise<void> => {
+    localStorage.removeItem("token_expires_at");
     await apiClient.post("/api/auth/logout");
   },
 
   getCurrentUser: async (): Promise<AuthResponse> => {
-    const response = await apiClient.get<ApiResponse<AuthResponse>>("/api/auth/me");
+    const response = await apiClient.get<ApiResponse<AuthResponse>>(
+      "/api/auth/me"
+    );
     return response.data.data;
   },
 
   refreshToken: async (): Promise<void> => {
-    await apiClient.post("/api/auth/refresh-token");
+    const response = await apiClient.post<{
+      status: string;
+      expiresAt?: number;
+    }>("/api/auth/refresh-token");
+    // Update stored expiration time
+    if (response.data.expiresAt) {
+      localStorage.setItem(
+        "token_expires_at",
+        response.data.expiresAt.toString()
+      );
+    }
   },
 };

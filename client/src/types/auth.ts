@@ -5,6 +5,7 @@ export interface ApiResponse<T> {
 
 export interface AuthResponse {
   user: User;
+  expiresAt?: number;
 }
 
 export interface User {
