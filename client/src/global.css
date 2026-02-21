@@ -43,6 +43,15 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-muted: var(--warning-muted);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-muted: var(--info-muted);
 }
 
 :root {
@@ -78,6 +87,16 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
+  /* Alert/Status Color System */
+  --warning: oklch(0.65 0.24 60.66);
+  --warning-foreground: oklch(0.22 0.03 59.4);
+  --warning-muted: oklch(0.96 0.08 75.67);
+  --success: oklch(0.66 0.19 142.45);
+  --success-foreground: oklch(0.2 0.04 141.3);
+  --success-muted: oklch(0.96 0.06 147.78);
+  --info: oklch(0.65 0.2 261.33);
+  --info-foreground: oklch(0.22 0.04 260.1);
+  --info-muted: oklch(0.96 0.08 265.78);
 }
 
 .dark {
@@ -112,6 +131,16 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+  /* Dark mode Alert/Status Colors */
+  --warning: oklch(0.75 0.2 61.95);
+  --warning-foreground: oklch(0.95 0.05 71.34);
+  --warning-muted: oklch(0.22 0.02 60);
+  --success: oklch(0.75 0.16 143.18);
+  --success-foreground: oklch(0.95 0.04 148.2);
+  --success-muted: oklch(0.2 0.03 141.5);
+  --info: oklch(0.74 0.17 262.5);
+  --info-foreground: oklch(0.95 0.06 266.2);
+  --info-muted: oklch(0.22 0.03 260);
 }
 
 @layer base {
