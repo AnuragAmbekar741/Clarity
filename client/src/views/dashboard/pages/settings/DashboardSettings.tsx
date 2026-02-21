@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { useTheme } from "@/components/theme/use-theme";
 import {
   useGmailAccounts,
@@ -43,133 +44,156 @@ export function DashboardSettings() {
   };
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">
-          Manage your account and preferences
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="space-y-1.5">
+        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <p className="text-base text-muted-foreground">
+          Manage your preferences and connected accounts
         </p>
       </div>
 
-      {/* Alerts */}
+      {/* Status Messages */}
       {accountsError && (
-        <div className="flex gap-3 p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg">
-          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
-          <p className="text-sm text-red-700 dark:text-red-300">
-            {accountsError instanceof Error
-              ? accountsError.message
-              : "Failed to load Gmail accounts"}
-          </p>
-        </div>
+        <Alert variant="destructive">
+          <AlertCircle className="w-4 h-4" />
+          <div>
+            <AlertTitle>Failed to load Gmail accounts</AlertTitle>
+            <AlertDescription>
+              {accountsError instanceof Error
+                ? accountsError.message
+                : "An error occurred while loading your Gmail accounts"}
+            </AlertDescription>
+          </div>
+        </Alert>
       )}
 
       {revokeMutation.error && (
-        <div className="flex gap-3 p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg">
-          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
-          <p className="text-sm text-red-700 dark:text-red-300">
-            Failed to disconnect Gmail account
-          </p>
-        </div>
+        <Alert variant="destructive">
+          <AlertCircle className="w-4 h-4" />
+          <div>
+            <AlertTitle>Disconnection failed</AlertTitle>
+            <AlertDescription>
+              Failed to disconnect Gmail account. Please try again.
+            </AlertDescription>
+          </div>
+        </Alert>
       )}
 
       {successMessage && (
-        <div className="flex gap-3 p-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg">
-          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
-          <p className="text-sm text-green-700 dark:text-green-300">
-            {successMessage}
-          </p>
-        </div>
+        <Alert variant="success">
+          <CheckCircle className="w-4 h-4" />
+          <div>
+            <AlertTitle>Success</AlertTitle>
+            <AlertDescription>{successMessage}</AlertDescription>
+          </div>
+        </Alert>
       )}
 
-      {/* Theme Settings */}
-      <div className="border dark:border-gray-700 rounded-xl p-6 space-y-4 bg-card">
-        <div className="space-y-1">
-          <h2 className="text-xl font-semibold">Theme</h2>
-          <p className="text-sm text-muted-foreground">
-            Choose your preferred color scheme
-          </p>
-        </div>
-
-        <div className="flex gap-3">
-          <Button
-            onClick={() => setTheme("light")}
-            variant={theme === "light" ? "default" : "outline"}
-            className="gap-2"
-            size="sm"
-          >
-            <Sun className="w-4 h-4" />
-            Light
-          </Button>
-          <Button
-            onClick={() => setTheme("dark")}
-            variant={theme === "dark" ? "default" : "outline"}
-            className="gap-2"
-            size="sm"
-          >
-            <Moon className="w-4 h-4" />
-            Dark
-          </Button>
-          <Button
-            onClick={() => setTheme("system")}
-            variant={theme === "system" ? "default" : "outline"}
-            className="gap-2"
-            size="sm"
-          >
-            System
-          </Button>
-        </div>
-      </div>
-
-      {/* Gmail Integration Section */}
-      <div className="border dark:border-gray-700 rounded-xl p-6 space-y-6 bg-card">
-        <div className="space-y-1">
-          <h2 className="text-xl font-semibold">Gmail Integration</h2>
-          <p className="text-sm text-muted-foreground">
-            Connect your Gmail accounts to start reading and managing emails
-          </p>
-        </div>
-
-        {isLoading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="text-center space-y-2">
-              <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mx-auto"></div>
-              <p className="text-sm text-muted-foreground">
-                Loading accounts...
-              </p>
-            </div>
+      {/* Settings Sections */}
+      <div className="space-y-5">
+        {/* Theme Section */}
+        <section className="border border-border/40 rounded-lg p-6 bg-card/50 space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-base font-semibold">Theme</h2>
+            <p className="text-sm text-muted-foreground">
+              Choose your preferred color scheme
+            </p>
           </div>
-        ) : accounts.length === 0 ? (
-          <div className="space-y-4">
-            <div className="text-center space-y-2 py-6">
-              <p className="font-medium">No Gmail accounts connected</p>
+
+          <div className="flex gap-2">
+            <Button
+              onClick={() => setTheme("light")}
+              variant={theme === "light" ? "default" : "outline"}
+              className="gap-2"
+              aria-pressed={theme === "light"}
+              aria-label="Light theme"
+            >
+              <Sun className="w-4 h-4" />
+              Light
+            </Button>
+            <Button
+              onClick={() => setTheme("dark")}
+              variant={theme === "dark" ? "default" : "outline"}
+              className="gap-2"
+              aria-pressed={theme === "dark"}
+              aria-label="Dark theme"
+            >
+              <Moon className="w-4 h-4" />
+              Dark
+            </Button>
+            <Button
+              onClick={() => setTheme("system")}
+              variant={theme === "system" ? "default" : "outline"}
+              className="gap-2"
+              aria-pressed={theme === "system"}
+              aria-label="System theme"
+            >
+              System
+            </Button>
+          </div>
+        </section>
+
+        {/* Gmail Integration Section */}
+        <section className="border border-border/40 rounded-lg p-6 bg-card/50 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <h2 className="text-base font-semibold">Gmail Integration</h2>
               <p className="text-sm text-muted-foreground">
-                Connect your Gmail account to start reading emails
+                Connect your Gmail accounts to manage emails
               </p>
             </div>
             <Button
               onClick={() => connectMutation.mutate()}
               disabled={connectMutation.isPending}
-              className="w-full gap-2"
+              variant={accounts.length === 0 ? "default" : "outline"}
+              size="sm"
+              className="gap-2 shrink-0"
             >
               <GoogleLogo />
-              {connectMutation.isPending ? "Connecting..." : "Connect Gmail"}
+              {connectMutation.isPending
+                ? "Connecting…"
+                : accounts.length === 0
+                ? "Connect Gmail"
+                : "Add Account"}
             </Button>
           </div>
-        ) : (
-          <div className="space-y-3">
+
+          {isLoading ? (
+            <div className="flex items-center justify-center py-6">
+              <div className="text-center space-y-2">
+                <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent mx-auto"></div>
+                <p className="text-sm text-muted-foreground">
+                  Loading accounts…
+                </p>
+              </div>
+            </div>
+          ) : accounts.length === 0 ? (
+            <Alert variant="warning">
+              <AlertCircle className="w-4 h-4" />
+              <div>
+                <AlertTitle>Gmail account required</AlertTitle>
+                <AlertDescription>
+                  Connect at least one Gmail account to use this application.
+                </AlertDescription>
+              </div>
+            </Alert>
+          ) : (
             <div className="space-y-2">
               {accounts.map((account) => (
                 <div
                   key={account.id}
-                  className="flex items-center justify-between p-3 bg-muted/50 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-muted dark:hover:bg-gray-900/50 transition-colors"
+                  className="flex items-center justify-between p-3 bg-background/50 border border-border/40 rounded-md hover:bg-background/70 transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-xs shrink-0">
+                    <div
+                      className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-sm font-semibold shrink-0"
+                      aria-label={`Avatar for ${account.googleEmail}`}
+                    >
                       {account.googleEmail.charAt(0).toUpperCase()}
                     </div>
                     <div className="space-y-0.5 min-w-0 flex-1">
-                      <p className="font-medium text-sm truncate">
+                      <p className="text-sm font-medium truncate">
                         {account.googleEmail}
                       </p>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -181,7 +205,7 @@ export function DashboardSettings() {
                         </span>
                         {new Date(account.expiresAt) < new Date() ? (
                           <span className="text-amber-600 dark:text-amber-500 font-medium">
-                            ⚠️ Expired
+                            Expired
                           </span>
                         ) : (
                           <span>
@@ -203,10 +227,11 @@ export function DashboardSettings() {
                     disabled={revokeMutation.isPending}
                     variant="ghost"
                     size="sm"
-                    className="shrink-0 h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 ml-2"
+                    className="shrink-0 h-7 w-7 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                    aria-label={`Disconnect ${account.googleEmail}`}
                   >
                     {revokeMutation.isPending ? (
-                      <div className="w-3.5 h-3.5 animate-spin rounded-full border border-current border-t-transparent"></div>
+                      <div className="w-3 h-3 animate-spin rounded-full border border-current border-t-transparent" />
                     ) : (
                       <Trash2 className="w-3.5 h-3.5" />
                     )}
@@ -214,21 +239,8 @@ export function DashboardSettings() {
                 </div>
               ))}
             </div>
-
-            <div className="pt-2">
-              <Button
-                onClick={() => connectMutation.mutate()}
-                disabled={connectMutation.isPending}
-                className="w-full gap-2"
-              >
-                <GoogleLogo />
-                {connectMutation.isPending
-                  ? "Connecting..."
-                  : "Connect Another Account"}
-              </Button>
-            </div>
-          </div>
-        )}
+          )}
+        </section>
       </div>
     </div>
   );
@@ -239,7 +251,7 @@ export function DashboardSettings() {
  */
 function GoogleLogo() {
   return (
-    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
       <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
