@@ -6,7 +6,7 @@ import {
   type UseMutationResult,
 } from "@tanstack/react-query";
 import { gmailService } from "@/api/gmail";
-import type { GmailAccount } from "@/types/auth";
+import type { GmailAccount } from "@/types/gmail";
 
 /**
  * Hook to fetch all Gmail accounts for the current user

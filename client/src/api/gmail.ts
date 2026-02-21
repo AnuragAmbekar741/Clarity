@@ -1,5 +1,6 @@
 import { apiClient } from "@/services/global.client";
-import type { ApiResponse, GmailAccount } from "@/types/auth";
+import type { ApiResponse } from "@/types/api";
+import type { GmailAccount } from "@/types/gmail";
 
 export const gmailService = {
   /**

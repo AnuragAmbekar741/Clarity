@@ -30,39 +30,43 @@ Core Principles
    RULE: If a component requires significant scrolling to read, it's too large
    RULE: Extract sub-components when you see repeated patterns or logical groupings
    RULE: Smaller components are more likely to be reusable
+6. Logic/JSX Separation
+   RULE: For pages or features over ~100 lines, extract a usePageName (or useFeatureName) hook that owns all state, mutations, and handlers
+   RULE: Keep the component as pure composition: it should read as a tree of sub-components that receive props from the hook
+   RULE: When a section of JSX has a clear title or boundary (e.g. "Theme Section", "Gmail Section"), extract it into a dedicated sub-component
    State Management Rules
-6. Custom Hooks for State
+7. Custom Hooks for State
    RULE: Use custom hooks to encapsulate state management logic
    RULE: Hooks should return both state and functions to modify that state
    RULE: Name custom hooks with the use prefix (e.g., usePaymentMethods)
-7. State Location
+8. State Location
    RULE: Keep state as close to where it's used as possible
    RULE: Lift state up only when necessary for sharing between components
    RULE: Consider hooks as state machines that components can connect to
    Data Modeling Rules
-8. Domain Objects
+9. Domain Objects
    RULE: Create domain classes/objects to encapsulate business logic
    RULE: Domain objects should not contain any UI-related information
    RULE: Use domain objects to avoid logic leakage in views
-9. Data Conversion
+10. Data Conversion
    RULE: Handle data transformation in dedicated functions or classes
    RULE: Keep data conversion logic out of components
    RULE: Create a clear boundary between remote data formats and local domain objects
    Architecture Patterns
-10. Layered Architecture
+11. Layered Architecture
     RULE: Organize code into distinct layers: View, Model, and Data
     RULE: Each layer should only communicate with adjacent layers
     RULE: Dependencies should flow in one direction (typically View → Model → Data)
-11. Anti-Corruption Layer
+12. Anti-Corruption Layer
     RULE: Create gateway objects to encapsulate external system access
     RULE: Isolate API changes to a single location
     RULE: Convert external data formats to internal domain objects at the boundary
-12. Polymorphism Over Conditionals
+13. Polymorphism Over Conditionals
     RULE: Replace scattered if-else checks with polymorphic objects
     RULE: Use strategy pattern for country/locale-specific logic
     RULE: Avoid "shotgun surgery" by centralizing variant behavior
     Code Organization Rules
-13. File Structure
+14. File Structure
     src/
     ├── components/ # Pure UI components
     ├── hooks/ # Custom React hooks
@@ -70,38 +74,38 @@ Core Principles
     ├── services/ # API clients and external integrations
     ├── utils/ # Helper functions
     └── types/ # TypeScript type definitions
-14. Module Boundaries
+15. Module Boundaries
     RULE: Each module should have clear inputs and outputs
     RULE: Avoid circular dependencies between modules
     RULE: Domain logic should never depend on UI logic
-15. Naming Conventions
+16. Naming Conventions
     RULE: Use descriptive names that indicate the module's responsibility
     RULE: Suffix view-related files with their type (e.g., Payment.tsx for components)
     RULE: Use consistent naming patterns across the codebase
     Testing and Reusability
-16. Testability
+17. Testability
     RULE: Pure components are easier to test - prefer them
     RULE: Domain objects should be fully testable without UI
     RULE: Hooks can be tested independently of components
-17. Reusability Checklist
+18. Reusability Checklist
     RULE: Before creating a component, ask: "Could this be used elsewhere?"
     RULE: Extract common patterns into shared components
     RULE: Domain logic should be reusable across different UI frameworks
     Refactoring Guidelines
-18. Progressive Enhancement
+19. Progressive Enhancement
     RULE: Start simple and refactor as complexity grows
     RULE: Don't over-engineer from the beginning
     RULE: Apply patterns when they solve actual problems
-19. Refactoring Triggers
+20. Refactoring Triggers
     RULE: When adding a feature requires changes in multiple places → Extract shared logic
     RULE: When a component becomes hard to understand → Split it
     RULE: When you see repeated if-else for variants → Consider polymorphism
-20. Code Smells to Avoid
+21. Code Smells to Avoid
     RULE: Avoid "shotgun surgery" - needing to change multiple files for one feature
     RULE: Avoid logic leakage - business rules scattered in views
     RULE: Avoid mixed concerns - components doing too many things
     Implementation Examples
-21. Hook Pattern
+22. Hook Pattern
     // GOOD: Extracted hook with clear responsibility
     const useRoundUp = (amount: number, strategy: PaymentStrategy) => {
     const [agreeToDonate, setAgreeToDonate] = useState(false);
@@ -112,7 +116,7 @@ tip: strategy.getTip(amount),
 }), [agreeToDonate, amount, strategy]);
 
 return { total, tip, agreeToDonate, updateAgreeToDonate };
-}; 22. Pure Component Pattern
+}; 23. Pure Component Pattern
 // GOOD: Pure component focused on rendering
 const PaymentMethods = ({ options }: { options: PaymentMethod[] }) => (
 <>
@@ -128,7 +132,7 @@ const PaymentMethods = ({ options }: { options: PaymentMethod[] }) => (
 </label>
 ))}
 </>
-); 23. Domain Object Pattern
+); 24. Domain Object Pattern
 // GOOD: Domain object encapsulating business logic
 class PaymentMethod {
 constructor(private remotePaymentMethod: RemotePaymentMethod) {}
@@ -147,7 +151,7 @@ return `Pay with ${this.provider}`;
 get isDefaultMethod() {
 return this.provider === "cash";
 }
-} 24. Strategy Pattern
+} 25. Strategy Pattern
 // GOOD: Strategy pattern for handling variants
 class CountryPayment {
 constructor(
@@ -163,33 +167,38 @@ getTip(amount: number): number {
 return calculateTipFor(this.getRoundUpAmount.bind(this))(amount);
 }
 }
-Best Practices Summary 25. Development Workflow
+Best Practices Summary 26. Development Workflow
 Start with a simple component
 Extract hooks when state logic becomes complex
 Create domain objects when business rules emerge
 Split components when they handle multiple concerns
-Introduce patterns when they solve real problems 26. Decision Framework
+Introduce patterns when they solve real problems 27. Decision Framework
 Can this logic be used without React? → Extract to domain object
 Is this about managing state? → Extract to custom hook
 Is this about rendering UI? → Keep in component
-Is this about external systems? → Create a service/gateway 27. Quality Checklist
+Is this about external systems? → Create a service/gateway 28. Quality Checklist
 Components are focused and easy to understand
 Business logic is testable without UI
 Changes are localized to relevant modules
 Code can be reused in different contexts
 Dependencies flow in one direction
-Anti-Patterns to Avoid 28. Common Mistakes
+Anti-Patterns to Avoid 29. Common Mistakes
 AVOID: Fetching data directly in components
 AVOID: Transforming data in render methods
 AVOID: Scattered conditional logic for variants
 AVOID: Mixing UI and business logic
-AVOID: Creating unnecessary temporary files or scripts 29. Code Review Red Flags
+AVOID: Creating unnecessary temporary files or scripts 30. Code Review Red Flags
 Components over 200 lines
 Multiple useEffect hooks in one component
 Business logic in event handlers
 Repeated if-else checks across files
 Direct API calls in components
-Migration Strategy 30. Incremental Refactoring
+31. React 19 APIs (client uses React 19)
+RULE: Do not use forwardRef; ref is a regular prop. Define components as function Component({ ref, ...props }: Props & { ref?: React.Ref<HTMLElement> })
+RULE: Use use(Context) instead of useContext(Context) when consuming context
+32. Compound Components
+RULE: For complex reusable UI with shared state, use a Provider plus sub-components (e.g. Sidebar.Provider, Sidebar.Frame, Sidebar.MenuItem). Consumers compose the pieces they need; state is dependency-injected via the provider
+Migration Strategy 33. Incremental Refactoring
 Identify the busiest components first
 Extract custom hooks for state management
 Create domain objects for business logic

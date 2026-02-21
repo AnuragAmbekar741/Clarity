@@ -16,8 +16,8 @@ import { DashboardSent } from "../views/dashboard/pages/mail/Sent";
 import { DashboardDrafts } from "../views/dashboard/pages/mail/Drafts";
 import { DashboardArchive } from "../views/dashboard/pages/mail/Archive";
 import { DashboardSettings } from "../views/dashboard/pages/settings/DashboardSettings";
-import { GmailSuccess } from "../views/dashboard/pages/gmail/GmailSuccess";
-import { GmailError } from "../views/dashboard/pages/gmail/GmailError";
+import { GmailSuccess } from "../views/gmail/GmailSuccess";
+import { GmailError } from "../views/gmail/GmailError";
 
 const rootRoute = createRootRoute({
   component: () => (

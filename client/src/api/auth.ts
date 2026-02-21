@@ -1,5 +1,6 @@
 import { apiClient } from "@/services/global.client";
-import type { ApiResponse, AuthResponse } from "@/types/auth";
+import type { ApiResponse } from "@/types/api";
+import type { AuthResponse } from "@/types/user";
 
 export const authService = {
   googleLogin: async (idToken: string): Promise<AuthResponse> => {

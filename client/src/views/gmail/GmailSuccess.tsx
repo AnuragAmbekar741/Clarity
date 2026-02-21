@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 
 export function GmailSuccess() {
   const navigate = useNavigate();
-  const { email, accountId } = useSearch({ from: "/gmail/success" });
+  const { email, accountId } = useSearch({ from: "/gmail/success" }) as {
+    email?: string;
+    accountId?: string;
+  };
 
   useEffect(() => {
     // Auto-redirect after 2 seconds
@@ -16,10 +19,10 @@ export function GmailSuccess() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4 text-center space-y-4">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="bg-card rounded-lg border border-border/40 shadow-lg p-8 max-w-md w-full mx-4 text-center space-y-4">
         <div className="text-5xl mb-4">✅</div>
-        <h1 className="text-2xl font-bold text-green-600">
+        <h1 className="text-2xl font-bold text-success">
           Gmail Connected Successfully!
         </h1>
         <p className="text-muted-foreground">
@@ -30,7 +33,7 @@ export function GmailSuccess() {
           Account ID: <span className="font-mono text-xs">{accountId}</span>
         </p>
         <p className="text-sm text-muted-foreground">
-          Redirecting to settings in 2 seconds...
+          Redirecting to settings in 2 seconds…
         </p>
         <Button
           onClick={() => navigate({ to: "/dashboard/settings" })}
