@@ -1,0 +1,46 @@
+---
+description: Typography system — font stack, type scale, and text conventions for the Clarity client app
+globs: client/src/**/*.{tsx,css}
+alwaysApply: false
+---
+
+# Typography
+
+## Font stack (approved fonts loaded in `index.html`)
+
+| Role | Font | Tailwind class | When to use |
+|------|------|---------------|-------------|
+| Display / headings | **Syne** | `font-[Syne]` | Hero, page titles, section headings, sidebar brand, buttons (landing) |
+| Accent / editorial | **Newsreader** | `font-['Newsreader']` | Single-word emphasis inside headings, italic flourish |
+| UI body / labels | **DM Sans** | `font-['DM_Sans']` | Badges, captions, small-caps labels, body paragraphs |
+| Body (alt) | **Outfit** | `font-['Outfit']` | Longer form content, dashboard body text |
+| Serif accent | **Instrument Serif** | `font-['Instrument_Serif']` | Decorative use only |
+
+Do **not** add new font families without updating `index.html` and this rule.
+Never fall back to Inter, Roboto, Arial, or system-ui as a primary.
+
+## Type scale
+
+| Element | Classes | Example |
+|---------|---------|---------|
+| Page title (H1) | `text-3xl font-bold tracking-tight` | Dashboard pages, settings |
+| Hero heading | `font-[Syne] text-[clamp(3rem,8vw,6.5rem)] font-bold tracking-[-0.04em] leading-[0.95] text-balance` | Landing hero |
+| Section heading (H2) | `font-[Syne] text-[clamp(2rem,5vw,3.5rem)] font-bold tracking-tight leading-tight` | Landing sections |
+| Dashboard section (H2) | `text-base font-semibold` | Settings panels |
+| Card title | `text-base font-semibold leading-snug tracking-tight` | Alert titles, card headers |
+| Body | `text-sm` | Default prose |
+| Caption / secondary | `text-xs text-muted-foreground` | Metadata, timestamps |
+| Badge / label | `font-['DM_Sans'] text-[11px] uppercase tracking-[0.18em] font-medium` | Landing badges |
+
+Maintain heading hierarchy: `<h1>` → `<h2>` → `<h3>`. Never skip levels.
+
+## Text conventions
+
+- Ellipsis: `…` (U+2026), never `...`
+- Curly quotes: `"` `"` not straight `"`
+- Loading states: end with `…` — "Loading…", "Saving…", "Redirecting…"
+- Non-breaking space for units: `10&nbsp;MB`, `⌘&nbsp;K`
+- Number columns: add `tabular-nums` for alignment
+- Multi-line headings: prefer `text-balance` or `text-pretty` to prevent widows
+- Button labels: Title Case, specific verbs ("Save API Key" not "Continue")
+- Error messages: include a fix or next step, not just the problem

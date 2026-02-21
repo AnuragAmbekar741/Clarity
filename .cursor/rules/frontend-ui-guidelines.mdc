@@ -1,0 +1,65 @@
+---
+description: UI guidelines — accessibility, motion, focus, forms, and anti-patterns for the Clarity client app
+globs: client/src/**/*.{tsx,css}
+alwaysApply: false
+---
+
+# UI guidelines
+
+## Accessibility
+
+- Icon-only buttons: always add `aria-label`
+- Decorative icons: add `aria-hidden="true"`
+- Form inputs: associate with `<label>` (via `htmlFor`) or `aria-label`
+- Use `<button>` for actions, `<a>`/`<Link>` for navigation — never `<div onClick>`
+- Async feedback (toasts, inline validation): use `aria-live="polite"`
+- Images: explicit `width`/`height` to prevent CLS; `alt` text (or `alt=""` if decorative)
+
+## Focus states
+
+- All interactive elements need visible focus: `focus-visible:ring-2 ring-ring`
+- Never `outline-none` without a `focus-visible:` replacement
+- Use `:focus-visible` (not `:focus`) to avoid focus ring on click
+
+## Motion and animation
+
+- Honor `prefers-reduced-motion` — provide a reduced variant or disable
+- Animate only `transform` and `opacity` (compositor-friendly)
+- Never `transition: all` — list properties explicitly (e.g. `transition-colors`, `transition-transform`)
+- Use Motion (`motion/react`) for orchestrated sequences; CSS for simple hovers
+- Standard easing: `[0.22, 1, 0.36, 1]` for enter animations (matches landing page)
+- Animations must be interruptible — respond to user input mid-animation
+
+## Forms
+
+- Correct `type` (`email`, `tel`, `url`) and `autocomplete` on inputs
+- Never block paste (`onPaste` + `preventDefault`)
+- Placeholders end with `…` and show example patterns
+- Submit button stays enabled until request starts; show spinner during request
+- Inline errors next to fields; focus first error on submit
+- Warn before navigation with unsaved changes (`beforeunload` or router guard)
+
+## Content handling
+
+- Long text: use `truncate`, `line-clamp-*`, or `break-words`
+- Flex children: add `min-w-0` to allow truncation
+- Handle empty states — never render broken UI for empty arrays/strings
+- Below-fold images: `loading="lazy"`
+
+## Dark mode
+
+- Both `:root` and `.dark` tokens are defined in `global.css` — never hardcode light/dark variants
+- Use `color-scheme: dark` on `<html>` when dark is active
+- `<meta name="theme-color">` should match page background
+
+## Anti-patterns (flag these in review)
+
+- Raw Tailwind colors for status: `green-600`, `red-600`, `amber-600`, `blue-500` → use tokens
+- `bg-white`, `bg-gradient-to-br from-blue-50` for app pages → use `bg-background`, `bg-card`
+- `transition: all` → list specific properties
+- `outline-none` without `focus-visible:ring-*`
+- `<div>` or `<span>` with click handlers → use `<button>`
+- New fonts not in approved stack (Syne, Newsreader, DM Sans, Outfit, Instrument Serif)
+- `...` instead of `…` in UI copy
+- `autoFocus` without clear justification
+- Hardcoded date/number formats → use `Intl.DateTimeFormat` / `Intl.NumberFormat`

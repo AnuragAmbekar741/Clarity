@@ -1,0 +1,61 @@
+---
+description: Design tokens — colors, borders, radius, and spacing conventions for the Clarity client app
+globs: client/src/**/*.{tsx,css}
+alwaysApply: false
+---
+
+# Design tokens
+
+All UI tokens are defined in `client/src/global.css` using OKLCH color space. Always reference semantic tokens — never use raw Tailwind palette colors for UI meaning.
+
+## Colors
+
+Use **only** semantic token classes. These map to CSS variables that auto-switch for dark mode.
+
+| Purpose | Use | Never use |
+|---------|-----|-----------|
+| Success feedback | `text-success`, `bg-success-muted`, `border-success/20` | `text-green-600`, `bg-green-50` |
+| Error / destructive | `text-destructive`, `bg-destructive/10`, `border-destructive/20` | `text-red-600`, `bg-red-50`, `border-red-200` |
+| Warning | `text-warning`, `bg-warning-muted`, `border-warning/20` | `text-amber-600`, `text-orange-500` |
+| Info | `text-info`, `bg-info-muted`, `border-info/20` | `text-blue-600`, `bg-blue-50` |
+| Muted/secondary text | `text-muted-foreground` | `text-gray-500`, `text-black/50` |
+| Backgrounds | `bg-background`, `bg-card`, `bg-muted` | `bg-white`, `bg-gray-100` |
+| Full-page gradients | `bg-background` only | `bg-gradient-to-br from-blue-50 to-indigo-100` |
+
+Exception: Landing page hero/features use `black`/`white` with opacity for editorial contrast. Dashboard and app chrome must use tokens.
+
+## Border radius
+
+Base: `--radius: 0.625rem`. Scale defined in `@theme inline`.
+
+| Element | Class | Usage |
+|---------|-------|-------|
+| Buttons, inputs | `rounded-md` | Standard interactive elements |
+| Cards, panels, sections | `rounded-lg` | Content containers |
+| Feature cards (landing) | `rounded-2xl` | Large editorial cards |
+| Avatars, pills, badges | `rounded-full` | Circular/pill elements |
+
+## Borders
+
+| Strength | Class | When |
+|----------|-------|------|
+| Strong divider | `border-border` | Header/sidebar dividers, `<hr>` |
+| Card/panel | `border-border/40` | Section cards in dashboard |
+| Subtle container | `border-border/50` | Alerts, inner panels |
+| Status accent | `border-{status}/20` | Alert left bars, inline errors |
+
+Width is always 1px (default `border`). Only use `border-2` for focus rings or active states.
+
+## Spacing
+
+Standardized padding/gap values:
+
+| Context | Padding | Gap |
+|---------|---------|-----|
+| Page content area | `px-8 py-4` | — |
+| Section card | `p-6` | `space-y-4` |
+| Compact block (alert) | `px-4 py-3` | `gap-3` |
+| Card list items | `p-3` | `gap-2` |
+| Feature sections (landing) | `p-8 md:p-10` | `gap-6` |
+
+Prefer these standard values. Avoid one-off spacing like `p-7`, `gap-2.5`, `px-5` unless for precise alignment.
