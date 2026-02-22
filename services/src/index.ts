@@ -7,6 +7,7 @@ import { env } from "./config/env.js";
 import router from "./routes/index.js";
 import { errorHandler } from "./middleware/error-handler.js";
 import { initializeDatabase, closeDatabase } from "./config/database.js";
+import { gmailTokenRefreshCron } from "./cron/gmail-token-refresh.cron.js";
 
 const app = express();
 
@@ -28,6 +29,9 @@ const startServer = async () => {
     // Initialize database connection
     await initializeDatabase();
 
+    // Start background cron jobs (must be after DB init)
+    gmailTokenRefreshCron.start();
+
     // Start Express server
     app.listen(env.PORT, () => {
       console.log(`Server is running on port ${env.PORT}`);
@@ -41,12 +45,14 @@ const startServer = async () => {
 // Graceful shutdown handlers
 process.on("SIGTERM", async () => {
   console.log("SIGTERM signal received: closing HTTP server");
+  gmailTokenRefreshCron.stop();
   await closeDatabase();
   process.exit(0);
 });
 
 process.on("SIGINT", async () => {
   console.log("SIGINT signal received: closing HTTP server");
+  gmailTokenRefreshCron.stop();
   await closeDatabase();
   process.exit(0);
 });
