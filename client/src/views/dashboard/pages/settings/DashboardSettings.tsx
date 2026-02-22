@@ -71,10 +71,7 @@ export function DashboardSettings() {
       />
 
       <div className="space-y-5">
-        <ThemeSection
-          theme={settings.theme}
-          setTheme={settings.setTheme}
-        />
+        <ThemeSection theme={settings.theme} setTheme={settings.setTheme} />
         <GmailAccountsSection
           accounts={settings.accounts}
           isLoading={settings.isLoading}

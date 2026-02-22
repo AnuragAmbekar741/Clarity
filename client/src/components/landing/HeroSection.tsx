@@ -41,17 +41,17 @@ export function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Heading */}
-        <div className="overflow-hidden">
+        {/* Heading — no overflow-hidden to avoid clipping descender (y in clarity); slide uses smaller offset */}
+        <div>
           <motion.h1
-            initial={{ y: "110%" }}
-            animate={{ y: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.15, ease }}
-            className="font-[Syne] text-[clamp(3rem,8vw,6.5rem)] leading-[0.95] tracking-[-0.04em] text-black dark:text-white font-bold text-balance"
+            className="font-[Syne] text-[clamp(3rem,8vw,6.5rem)] leading-[1.2] tracking-[-0.04em] text-black dark:text-white font-bold text-balance"
           >
             Get{" "}
             <span className="italic font-['Newsreader'] font-medium">
-              <span className="bg-linear-to-r from-black via-black/30 to-black dark:from-white dark:via-white/30 dark:to-white bg-clip-text text-transparent bg-size-[200%_100%] animate-[gradient-shift_4s_ease-in-out_infinite]">
+              <span className="inline-block bg-linear-to-r from-black via-black/30 to-black dark:from-white dark:via-white/30 dark:to-white bg-clip-text text-transparent bg-size-[200%_100%] animate-[gradient-shift_4s_ease-in-out_infinite]">
                 clarity
               </span>
             </span>{" "}

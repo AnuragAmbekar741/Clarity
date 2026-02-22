@@ -1,4 +1,4 @@
-import { motion, useInView } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { useRef } from "react";
 import { Tag, Search, Zap } from "lucide-react";
 
@@ -93,26 +93,60 @@ function FeatureCard({
 export function FeaturesSection() {
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-80px" });
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <section id="features" className="relative py-32 md:py-40">
       <div className="max-w-6xl mx-auto px-6 md:px-10">
-        {/* Section header */}
+        {/* Section header — staggered reveal (simplified when prefers-reduced-motion) */}
         <motion.div
           ref={headerRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          initial="hidden"
+          animate={isHeaderInView ? "visible" : "hidden"}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: prefersReducedMotion ? 0 : 0.12,
+                delayChildren: prefersReducedMotion ? 0 : 0.05,
+              },
+            },
+          }}
           className="text-center mb-20"
         >
-          <span className="font-['DM_Sans'] text-[11px] uppercase tracking-[0.2em] text-black/30 dark:text-white/30 mb-4 block">
+          <motion.span
+            variants={{
+              hidden: {
+                opacity: 0,
+                ...(prefersReducedMotion ? {} : { y: 16, filter: "blur(4px)" }),
+              },
+              visible: {
+                opacity: 1,
+                ...(prefersReducedMotion ? {} : { y: 0, filter: "blur(0px)" }),
+              },
+            }}
+            transition={{ duration: prefersReducedMotion ? 0.2 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="font-['DM_Sans'] text-[11px] uppercase tracking-[0.2em] text-black/30 dark:text-white/30 mb-4 block"
+          >
             Features
-          </span>
-          <h2 className="font-[Syne] text-[clamp(2rem,5vw,3.5rem)] font-bold tracking-tight text-black dark:text-white leading-tight">
-            Your inbox,{" "}
-            <span className="italic font-['Newsreader'] font-medium text-black/40 dark:text-white/40">
-              understood.
-            </span>
+          </motion.span>
+          <h2 className="font-[Syne] text-[clamp(2rem,5vw,3.5rem)] font-bold tracking-tight text-black dark:text-white leading-tight text-balance overflow-hidden">
+            <motion.span
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  ...(prefersReducedMotion ? {} : { y: "1em" }),
+                },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: prefersReducedMotion ? 0.2 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="block"
+            >
+              Your inbox,{" "}
+              <span className="italic font-['Newsreader'] font-medium text-black/40 dark:text-white/40">
+                understood.
+              </span>
+            </motion.span>
           </h2>
         </motion.div>
 
