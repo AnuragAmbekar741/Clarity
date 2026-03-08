@@ -30,7 +30,7 @@ const startServer = async () => {
     await initializeDatabase();
 
     // Start background cron jobs (must be after DB init)
-    gmailTokenRefreshCron.start();
+    // gmailTokenRefreshCron.start(); // TODO: Re-enable after fixing hanging issue
 
     // Start Express server
     app.listen(env.PORT, () => {

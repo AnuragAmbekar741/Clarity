@@ -41,18 +41,33 @@ class GmailTokenRefreshCron {
 
   private async refreshExpiringTokens(): Promise<void> {
     const threshold = new Date(Date.now() + REFRESH_BUFFER_MS);
-    const accounts = await this.gmailRepo.find({
-      where: {
-        expiresAt: LessThan(threshold),
-        refreshToken: Not(IsNull()),
-      },
-    });
-    for (const account of accounts) {
-      try {
-        await gmailAuthService.refreshAccessToken(account.id, account.userId);
-      } catch (err) {
-        console.log(err);
+    try {
+      const accounts = await this.gmailRepo.find({
+        where: {
+          expiresAt: LessThan(threshold),
+          refreshToken: Not(IsNull()),
+        },
+      });
+
+      for (const account of accounts) {
+        try {
+          // Add timeout to prevent blocking the event loop
+          await Promise.race([
+            gmailAuthService.refreshAccessToken(account.id, account.userId),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Token refresh timeout")), 30000)
+            ),
+          ]);
+          console.log(`[GmailTokenRefreshCron] Successfully refreshed token for account ${account.id}`);
+        } catch (err) {
+          console.error(
+            `[GmailTokenRefreshCron] Failed to refresh token for account ${account.id}:`,
+            err instanceof Error ? err.message : err
+          );
+        }
       }
+    } catch (err) {
+      console.error("[GmailTokenRefreshCron] Database query failed:", err instanceof Error ? err.message : err);
     }
   }
 }
